@@ -53,39 +53,35 @@ Demo application built as part of the interview task.
 
 ---
 
-## 🛠 Setup & Run
+## Setup & Run
 
-1. Clone repo:
-   git clone https://github.com/oleksiiiepikhin/weather-app.git
-   cd weather-app
+```bash
+# 1. Clone the repository
+git clone https://github.com/oleksiiiepikhin/weather-app.git
+cd weather-app
 
-2. Install deps:
+# 2. Install dependencies
 npm install
 
-3. Add your OpenWeather API key to:
-src/environments/environment.development.ts
-src/environments/environment.production.ts
+# 3. Add your OpenWeather API key
+# Edit the following files:
+#   src/environments/environment.development.ts
+#   src/environments/environment.production.ts
 
-4. Run dev server:
+# 4. Start the dev server
 npm start
 
-5. Open in browser:
-http://localhost:4200
+# 5. Open in your browser
+# http://localhost:4200
 
-Features Preview
+## Features Preview
 Search bar with live suggestions
-
 Favorites bar (add/remove cities)
-
 Today & Tomorrow weather cards
-
 °C/°F toggle
-
 Fully keyboard- and screen-reader-accessible
 
-Notes
+## Notes
 Built with a focus on clean architecture, accessibility, and responsive UI.
-
 Uses standalone Angular components (no NgModules).
-
 Error handling covers API, geolocation, and user input edge cases.
