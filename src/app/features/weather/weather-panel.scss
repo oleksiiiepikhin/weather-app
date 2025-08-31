@@ -34,6 +34,21 @@
       &:hover { background: #eef2f7; border-color: #94a3b8; }
       &:active { transform: translateY(1px); }
     }
+
+    button:first-child {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #fff;
+    
+      &:hover { background: #1d4ed8; border-color: #1d4ed8; }
+    }
+    
+    button:last-child {
+      background: #f8fafc;
+      color: #374151;
+    
+      &:hover { background: #f1f5f9; }
+    }
   }
 }
 
@@ -81,16 +96,18 @@
     font-weight: 700;
     line-height: 1;
   }
+
   .unit {
     font-size: 1rem;
-    margin-left: .25rem;
     opacity: .7;
   }
+
   .desc {
     text-transform: capitalize;
     opacity: .8;
     margin-top: .1rem;
   }
+
   .meta {
     margin: .5rem 0 0;
     padding-left: 1rem;

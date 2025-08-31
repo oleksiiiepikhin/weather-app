@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --c-bg: #f9fafb;
+    --c-surface: #ffffff;
+    --c-border: #e2e8f0;
+    --c-text: #1e293b;
+    --c-muted: #64748b;
+    --c-primary: #2563eb;
+  
+    --radius: 0.75rem;
+    --shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+  
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: var(--c-bg);
+    color: var(--c-text);
+    line-height: 1.4;
+}
+  
+h1, h2, h3 { margin: 0; font-weight: 600; }
+button { font: inherit; cursor: pointer; }
