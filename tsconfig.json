@@ -14,7 +14,14 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2022",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "paths": {
+      "@env": ["environments/environment"],
+      "@core/*": ["app/core/*"],
+      "@state/*": ["app/state/*"],
+      "@features/*": ["app/features/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

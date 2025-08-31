@@ -1,0 +1,5 @@
+.search { position:relative; display:flex; }
+.search input { width:100%; padding:.75rem 1rem; border:1px solid #d0d6dd; border-radius:.75rem; }
+.suggestions { position:absolute; top:calc(100% + .25rem); left:0; right:0; background:#fff; border:1px solid #d0d6dd; border-radius:.75rem; margin:0; padding:.25rem; list-style:none; max-height:280px; overflow:auto; }
+.suggestions li { padding:.5rem .75rem; border-radius:.5rem; cursor:pointer; }
+.suggestions li.active, .suggestions li:hover { background:#f1f5f9; }

@@ -1,0 +1,96 @@
+<section class="panel" *ngIf="vm$ | async as vm" aria-live="polite">
+  <header class="panel-header">
+    <h2 class="city" [attr.aria-label]="'Weather for ' + (vm.city?.name || 'unknown')">
+      {{ vm.city?.name || '—' }}
+    </h2>
+
+    <div class="actions">
+      <button type="button" (click)="addToFavorites(vm)" aria-label="Save city as favorite" title="Save">
+        ☆ Save
+      </button>
+      <button type="button" (click)="refresh(vm)" aria-label="Refresh weather" title="Refresh">
+        ⟳ Refresh
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="vm.loading" class="loader" role="status" aria-live="assertive">
+    Loading…
+  </div>
+
+  <div *ngIf="vm.error" class="alert" role="alert">
+    {{ vm.error }}
+  </div>
+
+  <div class="cards" *ngIf="!vm.loading && (vm.today || vm.tomorrow)">
+    <article class="card" aria-labelledby="today-title">
+      <h3 id="today-title">Today</h3>
+
+      <div *ngIf="vm.today as t" class="row">
+        <img *ngIf="t.weather?.[0]?.icon as ic"
+             [src]="'https://openweathermap.org/img/wn/' + ic + '@2x.png'"
+             [alt]="t.weather?.[0]?.description || 'Weather icon'"/>
+
+        <div class="main">
+          <div class="temp">
+            {{ (t.main?.temp ?? t.temp) | number:'1.0-0' }}°
+          </div>
+          <div class="desc">{{ t.weather?.[0]?.description }}</div>
+          <ul class="meta">
+            <li *ngIf="(t.main?.temp_min ?? t.temp?.min) !== undefined">
+              <strong>Min:</strong> {{ (t.main?.temp_min ?? t.temp?.min) | number:'1.0-0' }}°
+            </li>
+            <li *ngIf="(t.main?.temp_max ?? t.temp?.max) !== undefined">
+              <strong>Max:</strong> {{ (t.main?.temp_max ?? t.temp?.max) | number:'1.0-0' }}°
+            </li>
+            <li *ngIf="(t.main?.humidity ?? t.humidity) !== undefined">
+              <strong>Humidity:</strong> {{ (t.main?.humidity ?? t.humidity) }}%
+            </li>
+            <li *ngIf="(t.wind?.speed ?? t.wind_speed) !== undefined">
+              <strong>Wind:</strong>
+              {{ (t.wind?.speed ?? t.wind_speed) | number:'1.0-0' }}
+              <span class="unit">{{ vm.units === 'metric' ? 'm/s' : 'mph' }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="card" aria-labelledby="tomorrow-title">
+      <h3 id="tomorrow-title">Tomorrow</h3>
+
+      <div *ngIf="vm.tomorrow as d" class="row">
+        <img *ngIf="d.weather?.[0]?.icon as ic"
+             [src]="'https://openweathermap.org/img/wn/' + ic + '@2x.png'"
+             [alt]="d.weather?.[0]?.description || 'Weather icon'"/>
+
+        <div class="main">
+          <div class="temp">
+            {{ (d.main?.temp ?? d.temp?.day ?? d.temp) | number:'1.0-0' }}°
+          </div>
+          <div class="desc">{{ d.weather?.[0]?.description }}</div>
+          <ul class="meta">
+            <li *ngIf="(d.main?.temp_min ?? d.temp?.min) !== undefined">
+              <strong>Min:</strong> {{ (d.main?.temp_min ?? d.temp?.min) | number:'1.0-0' }}°
+            </li>
+            <li *ngIf="(d.main?.temp_max ?? d.temp?.max) !== undefined">
+              <strong>Max:</strong> {{ (d.main?.temp_max ?? d.temp?.max) | number:'1.0-0' }}°
+            </li>
+            <li *ngIf="(d.main?.humidity ?? d.humidity) !== undefined">
+              <strong>Humidity:</strong> {{ (d.main?.humidity ?? d.humidity) }}%
+            </li>
+            <li *ngIf="(d.wind?.speed ?? d.wind_speed) !== undefined">
+              <strong>Wind:</strong>
+              {{ (d.wind?.speed ?? d.wind_speed) | number:'1.0-0' }}
+              <span class="unit">{{ vm.units === 'metric' ? 'm/s' : 'mph' }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <p *ngIf="!vm.loading && !vm.error && !(vm.today || vm.tomorrow)" class="muted">
+    No data yet. Try searching for a city.
+  </p>
+</section>

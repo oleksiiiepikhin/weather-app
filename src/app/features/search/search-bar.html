@@ -1,0 +1,8 @@
+<form role="search" class="search" (submit)="$event.preventDefault()" aria-label="City search">
+    <input #input id="city" type="text" [value]="query()" (input)="onInput($event)" (keydown)="onKeydown($event)" (blur)="blurClose()" placeholder="Search city…" autocomplete="off" />
+    <ul *ngIf="open() && results().length" role="listbox" class="suggestions">
+      <li *ngFor="let item of results(); let i=index" role="option" [class.active]="i===activeIndex()" (mousedown)="select(item)">
+        {{ item.name }} <small *ngIf="item.state">({{item.state}})</small> – {{item.country}}
+      </li>
+    </ul>
+</form>

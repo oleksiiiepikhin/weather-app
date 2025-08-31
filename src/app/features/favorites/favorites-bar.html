@@ -1,0 +1,28 @@
+<nav class="favorites" aria-label="Favorite cities">
+    <span class="title">Favorites:</span>
+  
+    <ng-container *ngIf="favorites$ | async as favs">
+      <button
+        type="button"
+        class="pill"
+        *ngFor="let c of favs"
+        (click)="load(c)"
+        [attr.aria-label]="'Load weather for ' + c.name"
+        title="Load"
+      >
+        {{ c.name }}
+        <span
+          class="x"
+          role="button"
+          tabindex="0"
+          aria-label="Remove from favorites"
+          (click)="remove(c.name, $event)"
+          (keydown.enter)="remove(c.name, $event)"
+        >
+          ×
+        </span>
+      </button>
+  
+      <span *ngIf="!favs.length" class="muted">No favorites yet</span>
+    </ng-container>
+</nav>
