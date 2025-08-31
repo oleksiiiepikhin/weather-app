@@ -55,7 +55,6 @@ Demo application built as part of the interview task.
 
 ## Setup & Run
 
-```bash
 # 1. Clone the repository
 git clone https://github.com/oleksiiiepikhin/weather-app.git
 cd weather-app
