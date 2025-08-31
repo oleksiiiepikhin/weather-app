@@ -56,11 +56,11 @@ Demo application built as part of the interview task.
 ## Setup & Run
 
 ### Clone the repository
-git clone https://github.com/oleksiiiepikhin/weather-app.git
-cd weather-app
+- git clone https://github.com/oleksiiiepikhin/weather-app.git
+- cd weather-app
 
 ### Install dependencies
-npm install
+- npm install
 
 ### Add your OpenWeather API key
 Edit the following files:
@@ -68,10 +68,10 @@ Edit the following files:
 - src/environments/environment.production.ts
 
 ### Start the dev server
-npm start
+- npm start
 
 ### Open in your browser
-http://localhost:4200
+- http://localhost:4200
 
 ## Features Preview
 - Search bar with live suggestions
