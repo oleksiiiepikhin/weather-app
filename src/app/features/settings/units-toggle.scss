@@ -1,27 +1,20 @@
-.toggle {
+.units {
     display: inline-flex;
     border: 1px solid #cbd5e1;
-    border-radius: .5rem;
+    border-radius: .6rem;
     overflow: hidden;
-    background: #fff;
-}
-
-.btn {
-    padding: .4rem .7rem;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    font-weight: 600;
-    line-height: 1.1;
-    min-width: 2.6rem;
-
-    &:focus-visible {
-      outline: 2px solid #2563eb;
-      outline-offset: -2px;
+    background: #f8fafc;
+  
+    .seg {
+      padding: .35rem .65rem;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 600;
+      line-height: 1.1;
+  
+      & + .seg { border-left: 1px solid #cbd5e1; }
+      &.active { background: #e2e8f0; }
+      &:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
     }
-}
-
-.btn.active {
-    background: #0ea5e9;
-    color: #fff;
 }

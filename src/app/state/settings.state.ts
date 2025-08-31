@@ -8,16 +8,12 @@ export interface SettingsVM {
 
 @State<SettingsVM>({
   name: 'settings',
-  defaults: {
-    units: 'metric',
-  },
+  defaults: { units: 'metric' },
 })
 @Injectable()
 export class SettingsState {
-  @Selector()
-  static units(s: SettingsVM) {
-    return s.units;
-  }
+  @Selector() static units(s: SettingsVM) { return s.units; }
+  @Selector() static isMetric(s: SettingsVM) { return s.units === 'metric'; }
 
   @Action(SetUnits)
   setUnits(ctx: StateContext<SettingsVM>, { units }: SetUnits) {

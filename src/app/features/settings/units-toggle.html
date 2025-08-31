@@ -1,25 +1,13 @@
-<div class="toggle" role="group" aria-label="Temperature units">
-    <ng-container *ngIf="units$ | async as units">
-      <button
-        type="button"
-        class="btn"
-        [class.active]="units === 'metric'"
-        [attr.aria-pressed]="units === 'metric'"
-        (click)="set('metric')"
-        title="Celsius"
-      >
-        °C
-      </button>
-  
-      <button
-        type="button"
-        class="btn"
-        [class.active]="units === 'imperial'"
-        [attr.aria-pressed]="units === 'imperial'"
-        (click)="set('imperial')"
-        title="Fahrenheit"
-      >
-        °F
-      </button>
-    </ng-container>
+<div class="units" *ngIf="units$ | async as u" role="group" aria-label="Temperature units">
+  <button type="button"
+          class="seg"
+          [class.active]="u==='metric'"
+          [attr.aria-pressed]="u==='metric'"
+          (click)="set('metric')">°C</button>
+
+  <button type="button"
+          class="seg"
+          [class.active]="u==='imperial'"
+          [attr.aria-pressed]="u==='imperial'"
+          (click)="set('imperial')">°F</button>
 </div>

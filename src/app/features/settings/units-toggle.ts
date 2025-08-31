@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-
 import { SettingsState } from '@state/settings.state';
 import { SetUnits } from '@state/settings.actions';
 
@@ -15,11 +14,9 @@ import { SetUnits } from '@state/settings.actions';
 })
 export class UnitsToggleComponent {
   private store = inject(Store);
+  units$: Observable<'metric'|'imperial'> = this.store.select(SettingsState.units);
 
-  @Select(SettingsState.units)
-  units$!: Observable<'metric' | 'imperial'>;
-
-  set(units: 'metric' | 'imperial') {
+  set(units: 'metric'|'imperial') {
     this.store.dispatch(new SetUnits(units));
   }
 }

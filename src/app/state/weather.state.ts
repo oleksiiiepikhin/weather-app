@@ -5,6 +5,7 @@ import { WeatherApiService } from '@core/services/weather.api.service';
 import { LoadByCityName, LoadByCoords, SetActiveCity } from './weather.actions';
 import { SettingsState } from './settings.state';
 import { catchError, of, switchMap, tap } from 'rxjs';
+import { SetUnits } from './settings.actions';
 
 export interface WeatherVM {
   loading: boolean;
@@ -71,6 +72,14 @@ export class WeatherState {
   @Action(SetActiveCity)
   setActive(ctx: StateContext<WeatherVM>, { name, lat, lon }: SetActiveCity) {
     ctx.patchState({ city: { name, lat, lon } });
+  }
+
+  @Action(SetUnits)
+  onUnitsChanged(ctx: StateContext<WeatherVM>): void {
+    const c = ctx.getState().city;
+    if (!c || c.lat == null || c.lon == null) return;
+
+    ctx.dispatch(new LoadByCoords(c.lat, c.lon));
   }
 
   @Action(LoadByCoords)
