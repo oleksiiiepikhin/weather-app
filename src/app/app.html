@@ -1,19 +1,16 @@
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">Skip to main content</a>
 
-<header class="app-header">
-  <h1 class="brand">NGXS Weather</h1>
-
-  <app-units-toggle aria-label="Temperature units"></app-units-toggle>
+<header class="app-header" role="banner">
+  <h1>NGXS Weather</h1>
+  <app-units-toggle></app-units-toggle>
 </header>
 
 <main id="main" role="main">
   <app-search-bar></app-search-bar>
-
   <app-favorites-bar></app-favorites-bar>
-
   <app-weather-panel></app-weather-panel>
 </main>
 
-<footer class="app-footer">
-  <small>Weather data © OpenWeather • Demo app</small>
+<footer class="app-footer" role="contentinfo">
+  Weather data © OpenWeather • Demo app
 </footer>

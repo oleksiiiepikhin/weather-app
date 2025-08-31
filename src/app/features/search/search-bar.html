@@ -1,8 +1,27 @@
-<form role="search" class="search" (submit)="$event.preventDefault()" aria-label="City search">
-    <input #input id="city" type="text" [value]="query()" (input)="onInput($event)" (keydown)="onKeydown($event)" (blur)="blurClose()" placeholder="Search city…" autocomplete="off" />
-    <ul *ngIf="open() && results().length" role="listbox" class="suggestions">
-      <li *ngFor="let item of results(); let i=index" role="option" [class.active]="i===activeIndex()" (mousedown)="select(item)">
-        {{ item.name }} <small *ngIf="item.state">({{item.state}})</small> – {{item.country}}
-      </li>
-    </ul>
-</form>
+<div class="search">
+  <label class="sr-only" for="city">Search city</label>
+  <input
+    id="city"
+    [formControl]="q"
+    type="text"
+    placeholder="Search city…"
+    aria-autocomplete="list"
+    role="combobox"
+    [attr.aria-expanded]="open"
+    aria-haspopup="listbox"
+    [attr.aria-controls]="open ? 'city-list' : null"
+    [attr.aria-activedescendant]="activeId"
+    (keydown)="onKeyDown($event)"
+  />
+
+  <ul *ngIf="open" id="city-list" class="dropdown" role="listbox">
+    <li *ngFor="let c of suggestions; let i = index" role="option"
+        [id]="'opt-'+i" [attr.aria-selected]="i === activeIndex">
+      <button type="button"
+              (click)="choose(c)"
+              (mousemove)="hover(i)">
+        {{ c.name }} <small *ngIf="c.state || c.country">({{ c.state || c.country }})</small>
+      </button>
+    </li>
+  </ul>
+</div>

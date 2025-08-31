@@ -1,15 +1,15 @@
-import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { WeatherApiService } from '../../core/services/weather.api.service';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { WeatherApiService } from '@core/services/weather.api.service';
 import { Store } from '@ngxs/store';
-import { LoadByCoords, SetActiveCity } from '../../state/weather.actions';
-import { catchError, debounceTime, distinctUntilChanged, filter, fromEvent, of, switchMap, tap } from 'rxjs';
+import { LoadByCoords, SetActiveCity } from '@state/weather.actions';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './search-bar.html',
   styleUrls: ['./search-bar.scss'],
 })
@@ -17,45 +17,57 @@ export class SearchBarComponent {
   private api = inject(WeatherApiService);
   private store = inject(Store);
 
-  @ViewChild('input', { static: true }) inputRef!: ElementRef<HTMLInputElement>;
+  q = new FormControl('', { nonNullable: true });
+  suggestions: Array<{ name: string; lat: number; lon: number; state?: string; country?: string }> = [];
+  open = false;
+  activeIndex = -1;
+  get activeId() { return this.activeIndex >= 0 ? `opt-${this.activeIndex}` : null; }
 
-  query = signal('');
-  results = signal<any[]>([]);
-  open = signal(false);
-  activeIndex = signal(-1);
-
-  ngAfterViewInit() {
-    fromEvent<InputEvent>(this.inputRef.nativeElement, 'input').pipe(
-      debounceTime(200),
-      tap(() => this.open.set(true)),
-      filter(() => this.query().trim().length >= 2),
+  constructor() {
+    this.q.valueChanges.pipe(
+      debounceTime(250),
+      map(v => v.trim()),
       distinctUntilChanged(),
-      switchMap(() => this.api.geocodeCity(this.query().trim(), 5).pipe(catchError(() => of([]))))
+      filter(v => v.length >= 2),
+      switchMap(v => this.api.geocodeCity(v, 5))
     ).subscribe(list => {
-      this.results.set(list);
-      this.activeIndex.set(list.length ? 0 : -1);
+      this.suggestions = list ?? [];
+      this.open = this.suggestions.length > 0;
+      this.activeIndex = this.open ? 0 : -1;
     });
   }
 
-  onInput(e: Event) {
-    const v = (e.target as HTMLInputElement).value;
-    this.query.set(v);
-    if (v.trim().length < 2) { this.results.set([]); this.open.set(false); this.activeIndex.set(-1); }
+  hover(i: number) { this.activeIndex = i; }
+
+  onKeyDown(e: KeyboardEvent) {
+    if (!this.open && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+      this.open = this.suggestions.length > 0;
+      if (this.open) this.activeIndex = 0;
+      return;
+    }
+    if (!this.open) return;
+
+    if (e.key === 'ArrowDown') {
+      this.activeIndex = (this.activeIndex + 1) % this.suggestions.length;
+      e.preventDefault();
+    } else if (e.key === 'ArrowUp') {
+      this.activeIndex = (this.activeIndex - 1 + this.suggestions.length) % this.suggestions.length;
+      e.preventDefault();
+    } else if (e.key === 'Enter') {
+      const c = this.suggestions[this.activeIndex];
+      if (c) this.choose(c);
+      e.preventDefault();
+    } else if (e.key === 'Escape') {
+      this.open = false;
+      this.activeIndex = -1;
+    }
   }
 
-  onKeydown(e: KeyboardEvent) {
-    const list = this.results(); if (!this.open() || !list.length) return;
-    if (e.key === 'ArrowDown') { e.preventDefault(); this.activeIndex.set((this.activeIndex()+1)%list.length); }
-    else if (e.key === 'ArrowUp') { e.preventDefault(); this.activeIndex.set((this.activeIndex()-1+list.length)%list.length); }
-    else if (e.key === 'Enter') { e.preventDefault(); const item=list[this.activeIndex()]; if (item) this.select(item); }
-    else if (e.key === 'Escape') { this.open.set(false); }
+  choose(c: any) {
+    this.open = false;
+    const name = [c.name, c.state, c.country].filter(Boolean).join(', ');
+    this.store.dispatch(new SetActiveCity(name, c.lat, c.lon));
+    this.store.dispatch(new LoadByCoords(c.lat, c.lon));
+    this.q.setValue(name, { emitEvent: false });
   }
-
-  select(item: any) {
-    this.store.dispatch(new SetActiveCity(item.name, item.lat, item.lon));
-    this.store.dispatch(new LoadByCoords(item.lat, item.lon));
-    this.query.set(item.name); this.open.set(false); this.results.set([]);
-  }
-
-  blurClose() { setTimeout(() => this.open.set(false), 120); }
 }

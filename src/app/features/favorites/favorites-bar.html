@@ -3,11 +3,21 @@
   <nav class="favorites" aria-label="Favorite cities">
     <span class="title">Favorites:</span>
     @for (c of favs; track c.name) {
-      <button type="button" class="pill" (click)="load(c)" [attr.aria-label]="'Load weather for ' + c.name" title="Load">
-        {{ c.name }}
-        <span class="x" role="button" tabindex="0" aria-label="Remove from favorites"
-              (click)="remove(c.name, $event)" (keydown.enter)="remove(c.name, $event)">×</span>
-      </button>
+      <div class="pill-wrapper">
+        <button type="button"
+                class="pill"
+                (click)="load(c)"
+                [attr.aria-label]="'Load weather for ' + c.name"
+                title="Load">
+          {{ c.name }}
+        </button>
+        <button type="button"
+                class="x"
+                aria-label="Remove {{ c.name }} from favorites"
+                (click)="remove(c.name, $event)">
+          ×
+        </button>
+      </div>
     }
   </nav>
 }

@@ -1,16 +1,13 @@
-<section class="panel" *ngIf="vm$ | async as vm" aria-live="polite">
+<section class="panel" *ngIf="vm$ | async as vm"
+         aria-live="polite"
+         [attr.aria-busy]="vm.loading ? 'true' : 'false'">
   <header class="panel-header">
     <h2 class="city" [attr.aria-label]="'Weather for ' + (vm.city?.name || 'unknown')">
       {{ vm.city?.name || '—' }}
     </h2>
-
-    <div class="actions">
-      <button type="button" (click)="addToFavorites(vm)" aria-label="Save city as favorite" title="Save">
-        Save
-      </button>
-      <button type="button" (click)="refresh(vm)" aria-label="Refresh weather" title="Refresh">
-        Refresh
-      </button>
+    <div class="actions" role="group" aria-label="Panel actions">
+      <button type="button" (click)="addToFavorites(vm)" aria-label="Save city as favorite">Save</button>
+      <button type="button" (click)="refresh(vm)" aria-label="Refresh weather">Refresh</button>
     </div>
   </header>
 
