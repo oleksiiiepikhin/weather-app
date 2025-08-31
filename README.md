@@ -1,59 +1,91 @@
-# WeatherApp
+# Angular Weather App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.2.1.
+Demo application built as part of the interview task.
 
-## Development server
+## Tech Stack
+- **Angular (latest stable)** – standalone components
+- **NGXS** state management (+ logger & storage plugins)
+- **TypeScript**
+- **SCSS/CSS** (responsive design)
+- **OpenWeather API** (Geocoding, Current Weather, Forecast)
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## Implemented Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Core
+- **Location Detection**
+  - Detects user location on app load via browser Geolocation API
+  - Fallback to **Berlin** if location not available
+- **Search Bar**
+  - Search for cities by name with **live suggestions** (geocoding API)
+  - Select city → fetch weather
+- **Weather Display**
+  - Shows **Today & Tomorrow** weather
+  - Temperature, condition, humidity, wind speed, min/max values
+  - Weather icons/images included
+- **Error Handling**
+  - Gracefully handles:
+    - City not found
+    - Location denied
+    - API/network issues
+  - User-friendly error messages
+- **Accessibility (WCAG)**
+  - Full **tab navigation**
+  - Semantic HTML: `<header>`, `<main>`, `<footer>`
+  - Proper ARIA roles (`combobox`, `listbox`, `status`, `alert`, `aria-pressed`)
+  - Screen reader compatibility (tested with VoiceOver/NVDA)
+- **NGXS Plugins**
+  - `NgxsLoggerPluginModule` – development logging
+  - `NgxsStoragePluginModule` – persistence of favorites & settings
+- **Responsive Design**
+  - Mobile-friendly layout
+  - Adaptive cards and pill-style favorites
 
-## Code scaffolding
+### Optional
+- **Metric Settings**
+  - Toggle between **Celsius (°C)** and **Fahrenheit (°F)**
+  - Setting persisted in local storage
+- **Favorite Cities**
+  - Add/remove favorite cities
+  - Persist favorites between sessions
+  - Quick switch between favorite cities
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## 🛠 Setup & Run
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1. Clone repo:
+   git clone https://github.com/oleksiiiepikhin/weather-app.git
+   cd weather-app
 
-```bash
-ng generate --help
-```
+2. Install deps:
+npm install
 
-## Building
+3. Add your OpenWeather API key to:
+src/environments/environment.development.ts
+src/environments/environment.production.ts
 
-To build the project run:
+4. Run dev server:
+npm start
 
-```bash
-ng build
-```
+5. Open in browser:
+http://localhost:4200
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Features Preview
+Search bar with live suggestions
 
-## Running unit tests
+Favorites bar (add/remove cities)
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Today & Tomorrow weather cards
 
-```bash
-ng test
-```
+°C/°F toggle
 
-## Running end-to-end tests
+Fully keyboard- and screen-reader-accessible
 
-For end-to-end (e2e) testing, run:
+Notes
+Built with a focus on clean architecture, accessibility, and responsive UI.
 
-```bash
-ng e2e
-```
+Uses standalone Angular components (no NgModules).
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Error handling covers API, geolocation, and user input edge cases.
